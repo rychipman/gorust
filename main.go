@@ -7,5 +7,10 @@ package main
 import "C"
 
 func main() {
-	C.print_hello_string(C.CString("Gopher"))
+	printHello("joe")
+	printHello("patrick")
+}
+
+func printHello(name string) {
+	C.print_hello_string(C.CString(name))
 }
