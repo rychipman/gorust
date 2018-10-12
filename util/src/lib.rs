@@ -1,9 +1,23 @@
 extern crate libc;
-use std::ffi::CStr;
+use std::ffi::{CStr, CString};
+use std::os::raw::c_char;
 
 #[no_mangle]
-pub extern "C" fn get_hello_string() -> String {
-    format!("Hello, world!")
+pub extern "C" fn get_hello_string() -> *const c_char {
+    to_extern_string("Hello, world!")
+}
+
+fn to_extern_string(s: &str) -> *const c_char {
+    // build a new nul-terminated string
+    let c_str = CString::new(s).unwrap();
+
+    // turn it into a pointer
+    let c_str_ptr = c_str.as_ptr();
+
+    // tell rust not to free the string when this func ends
+    std::mem::forget(c_str);
+
+    c_str_ptr
 }
 
 #[no_mangle]
