@@ -9,5 +9,5 @@ run: build
 	./gorust
 
 clean:
-	rm gorust; \
+	rm -f gorust; \
 	rm -rf util/target
